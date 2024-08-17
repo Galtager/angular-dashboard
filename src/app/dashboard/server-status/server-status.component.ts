@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, DestroyRef, effect, inject, Input, OnDestroy, OnInit, signal } from '@angular/core';
 
 export enum serverStatusEnum {
   ONLINE = "online",
@@ -14,7 +14,7 @@ export enum serverStatusEnum {
 })
 export class ServerStatusComponent implements OnInit {
 
-  currentStatus: serverStatusEnum = serverStatusEnum.ONLINE;
+  currentStatus = signal<serverStatusEnum>(serverStatusEnum.ONLINE);
   private destroyRef = inject(DestroyRef)
 
   ngOnInit() {
@@ -25,11 +25,12 @@ export class ServerStatusComponent implements OnInit {
   toggleServerStatus() {
     const rnd = Math.random();
     if (rnd < 0.5) {
-      this.currentStatus = serverStatusEnum.ONLINE
+      this.currentStatus.set(serverStatusEnum.ONLINE)
     } else if (rnd < 0.9) {
-      this.currentStatus = serverStatusEnum.OFFLINE
+      this.currentStatus.set(serverStatusEnum.OFFLINE)
     } else {
-      this.currentStatus = serverStatusEnum.UNKNOWN
+      this.currentStatus.set(serverStatusEnum.UNKNOWN)
+
     }
   }
 }

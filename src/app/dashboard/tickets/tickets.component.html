@@ -1,1 +1,10 @@
-<app-new-ticket></app-new-ticket>
+<div>
+    <ul>
+        <li *ngFor="let ticket of tickets()">
+            <app-ticket [ticket]="ticket" (closeTicket)="onCloseTicket($event)" />
+        </li>
+    </ul>
+</div>
+<div id=" new-ticket">
+    <app-new-ticket (addTicket)="onAddTicket($event)" />
+</div>
